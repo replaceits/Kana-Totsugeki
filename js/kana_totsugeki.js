@@ -77,7 +77,23 @@ function lostGame(){
 }
 
 $(document).ready(function(){
-    $('.game-wrapper').fadeIn(1000);
+    $('.language-switcher').click(function(){
+        if($(this).hasClass('japanese')){
+            $(this).text("English");
+            $(this).removeClass('japanese');
+            $(this).addClass('english');
+        } else {
+            $(this).text("日本語");
+            $(this).removeClass('english');
+            $(this).addClass('japanese');
+        }
+    });
+
+    $('.start').click(function(){
+        $('.game-main-menu').fadeOut(500);
+        $('.game-play-field').delay(500).css('display','flex').hide().fadeIn(250);
+    });
+
     newRound();
 
     $('.game-input-answer').on('keypress', function (e) {
@@ -93,18 +109,6 @@ $(document).ready(function(){
                 }
             }
             newRound();
-        }
-    });
-
-    $('.language-switcher').click(function(){
-        if($(this).hasClass('japanese')){
-            $(this).text("English");
-            $(this).removeClass('japanese');
-            $(this).addClass('english');
-        } else {
-            $(this).text("日本語");
-            $(this).removeClass('english');
-            $(this).addClass('japanese');
         }
     });
 });

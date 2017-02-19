@@ -31,7 +31,68 @@ html,body{
 }
 
 .game-wrapper{
-    display: none;
+}
+
+.game-main-menu{
+    position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+
+    width: 100vw;
+}
+
+.game-main-menu-header{
+    font-size: 4em;
+    text-align: center;
+}
+
+.game-main-menu-buttons{
+    margin-top: 50px;
+
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+}
+
+.game-button{
+    display: block;
+
+    cursor: pointer;
+
+    min-width: 100px;
+    width: 100px;
+    max-width: 100px;
+
+    min-height: 50px;
+    height: 50px;
+    max-height: 50px;
+
+    line-height: 50px;
+
+    border-radius: 10px;
+
+    background: $color-primary;
+
+    box-shadow: 0px 1px 1px 0px rgba(34,138,101,0.75);
+
+    text-align: center;
+    margin-left: 25px;
+    margin-right: 25px;
+
+    transition: box-shadow 0.5s ease,
+                background 0.5s ease;
+
+    &:hover{
+        box-shadow: none;
+        background: $color-secondary;
+    }
 }
 
 .game-play-field{
@@ -40,7 +101,7 @@ html,body{
 	left: 50%;
 	transform: translate(-50%,-50%);
 
-    display: flex;
+    display: none;
     flex-direction: column;
     align-content: center;
     align-items: center;
