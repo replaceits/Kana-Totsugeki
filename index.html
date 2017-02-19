@@ -10,7 +10,7 @@
 		<meta name="url" content="https://www.replaceits.me/kana-totsugeki">
 		<meta name="rating" content="General">
 
-        <title>仮名突撃 - Kana Assualt</title>
+        <title>仮名突撃 - Kana Assault</title>
 
         <link rel="stylesheet" href="css/kana_totsugeki.css?v=0.1">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Inconsolata">
@@ -22,9 +22,10 @@
 
     <body>
         <div class="game-wrapper">
+            
             <div class="game-main-menu">
                 <div class="game-main-menu-header japanese">
-                    仮名突撃<br>Kana Assualt
+                    仮名突撃<br>Kana Assault
                 </div>
                 <div class="game-main-menu-buttons">
                     <div class="game-button start">
@@ -35,19 +36,67 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="game-options-menu">
+                <div class="game-options-menu-column-container">
+                    <div class="game-options-menu-column">
+                        <div class="game-options-menu-column-item">
+                            <div class="game-options-menu-column-item-header">
+                                Questions
+                            </div>
+                            <div class="game-options-menu-column-item-choice">
+                                Romaji
+                                <div class="game-options-tiny-button questions-romaji disabled"></div>
+                            </div>
+                            <div class="game-options-menu-column-item-choice">
+                                Hiragana
+                                <div class="game-options-tiny-button questions-hiragana enabled"></div>
+                            </div>
+                            <div class="game-options-menu-column-item-choice">
+                                Katakana
+                                <div class="game-options-tiny-button questions-katakana enabled"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-options-menu-column">
+                        <div class="game-options-menu-column-item">
+                            <div class="game-options-menu-column-item-header">
+                                Answers
+                            </div>
+                            <div class="game-options-menu-column-item-choice">
+                                Romaji
+                                <div class="game-options-tiny-button answers-romaji enabled"></div>
+                            </div>
+                            <div class="game-options-menu-column-item-choice">
+                                Hiragana
+                                <div class="game-options-tiny-button answers-hiragana enabled"></div>
+                            </div>
+                            <div class="game-options-menu-column-item-choice">
+                                Katakana
+                                <div class="game-options-tiny-button answers-katakana enabled"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-button exit">
+                    Exit
+                </div>
+            </div>
+
             <div class="game-play-field">
                 <div class="game-question japanese"></div>
                 <div class="game-input">
                     <div class="carrot mono">
                         >
                     </div>
-                    <input type="text" class="game-input-answer" maxlength="3">
+                    <input type="text" class="game-input-answer" maxlength="3" autofocus>
                 </div>
                 <div class="game-input-underline"></div>
                 <div class="game-score mono">
                     0
                 </div>
             </div>
+            
             <div class="game-footer">
                 <div class="game-footer-item">
                     <a href="https://github.com/replaceits/Kana-Totsugeki">
@@ -60,6 +109,7 @@
                     </a>
                 </div>
             </div>
+
         </div>
     </body>
 </html>

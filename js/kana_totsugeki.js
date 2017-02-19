@@ -30,7 +30,6 @@ function newRound(){
     questionBaseKeys = Object.keys(questionBase);
     questionSecondChar = questionBaseKeys[Math.floor(Math.random() * questionBaseKeys.length)];
     question = questionBase[questionSecondChar];
-    currentGame['display'] = question[Math.floor(Math.random() * 2)=='1'?'katakana':'hiragana'];
     currentGame['answers']['hiragana'] = question['hiragana'];
     currentGame['answers']['katakana'] = question['katakana'];
     currentGame['answers']['romaji'] =  questionBaseChar   == 'a' ? questionSecondChar
@@ -52,6 +51,20 @@ function newRound(){
         default:
             break;
     }
+
+    let questionTypes = new Array();
+
+    if(gameSettings['romajiQuestions']){
+        questionTypes.push(currentGame['answers']['romaji']);
+    }
+    if(gameSettings['hiraganaQuestions']){
+        questionTypes.push(currentGame['answers']['hiragana']);
+    }
+    if(gameSettings['katakanaQuestions']){
+        questionTypes.push(currentGame['answers']['katakana']);
+    }
+
+    currentGame['display'] = questionTypes[Math.floor(Math.random() * questionTypes.length)];
     $('.game-question').text(currentGame['display']);
     $('.game-input-answer').val("");
 }
@@ -69,7 +82,9 @@ function updateScore( wonRound ){
     } else {
         currentGame['score'] -= currentGame['score']-100<0?0:100;
     }
-    $('.game-score').text(currentGame['score']);
+    $('.game-score').animate({fakevalue: currentGame['score']},{step: function(now,fx){
+        $(this).text(Math.floor(now));
+    }},1000);
 }
 
 function lostGame(){
@@ -77,6 +92,38 @@ function lostGame(){
 }
 
 $(document).ready(function(){
+    var name = "gameSettings=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            gameSettings = $.parseJSON(c.substring(name.length, c.length));
+            if(!gameSettings['romajiAnswers']){
+                $('.answers-romaji').removeClass('enabled').addClass('disabled');
+            }
+            if(!gameSettings['hiraganaAnswers']){
+                $('.answers-hiragana').removeClass('enabled').addClass('disabled');
+            }
+            if(!gameSettings['katakanaAnswers']){
+                $('.answers-katakana').removeClass('enabled').addClass('disabled');
+            }
+            if(gameSettings['romajiQuestions']){
+                $('.questions-romaji').removeClass('disabled').addClass('enabled');
+            }
+            if(!gameSettings['hiraganaQuestions']){
+                $('.questions-hiragana').removeClass('enabled').addClass('disabled');
+            }
+            if(!gameSettings['katakanaQuestions']){
+                $('.questions-katakana').removeClass('enabled').addClass('disabled');
+            }
+        }
+    }
+
+
     $('.language-switcher').click(function(){
         if($(this).hasClass('japanese')){
             $(this).text("English");
@@ -92,23 +139,81 @@ $(document).ready(function(){
     $('.start').click(function(){
         $('.game-main-menu').fadeOut(500);
         $('.game-play-field').delay(500).css('display','flex').hide().fadeIn(250);
+        setTimeout(function(){
+            $('.game-input-answer').focus();
+        }, 500);
+        newRound();
     });
 
-    newRound();
+    $('.options').click(function(){
+        $('.game-main-menu').fadeOut(500);
+        $('.game-options-menu').delay(500).css('display','flex').hide().fadeIn(250);
+    });
+
+    $('.exit').click(function(){
+        $('.game-options-menu').fadeOut(500);
+        $('.game-main-menu').delay(500).fadeIn(250);
+    });
+
+    $('.game-options-tiny-button').click(function(){
+        if($(this).hasClass('enabled')){
+            $(this).removeClass('enabled').addClass('disabled');
+        } else {
+            $(this).removeClass('disabled').addClass('enabled');
+        }
+        if($(this).hasClass('answers-romaji')){
+            gameSettings['romajiAnswers'] = $(this).hasClass('enabled');
+        } else if($(this).hasClass('answers-hiragana')){
+            gameSettings['hiraganaAnswers'] = $(this).hasClass('enabled');
+        } else if($(this).hasClass('answers-katakana')){
+            gameSettings['katakanaAnswers'] = $(this).hasClass('enabled');
+        } else if($(this).hasClass('questions-romaji')){
+            gameSettings['romajiQuestions'] = $(this).hasClass('enabled');
+        } else if($(this).hasClass('questions-hiragana')){
+            gameSettings['hiraganaQuestions'] = $(this).hasClass('enabled');
+        } else if($(this).hasClass('questions-katakana')){
+            gameSettings['katakanaQuestions'] = $(this).hasClass('enabled');
+        }
+
+        let expires = new Date();
+        expires.setTime(expires.getTime() + 2592000000);
+        document.cookie = "gameSettings=" + JSON.stringify(gameSettings) + ";expires=" + expires.toUTCString() + ";path=/";
+    });
+
+    $(document).on('keyup',function(e){
+        switch(e.which){
+            //If ESC was pressed
+            case 27:
+                if(!$('.game-main-menu').is(":visible")){
+                    $('.game-options-menu').fadeOut(500);
+                    $('.game-play-field').fadeOut(500);
+                    $('.game-main-menu').delay(500).fadeIn(250);
+                }
+                break;
+        }
+    });
+
+    var keyDown = {};
 
     $('.game-input-answer').on('keypress', function (e) {
         //If Enter was pressed
         if(e.which === 13){
-            if(checkAnswer()){
-                updateScore(true);
-            } else {
-                updateScore(false);
-                currentGame['lives']--;
-                if(currentGame['lives'] === 0){
-                    lostGame();
+            if (keyDown[e.which] === null && $('.game-input-answer').val() !== "") {
+                keyDown[e.which] = true;
+            
+                if(checkAnswer()){
+                    updateScore(true);
+                } else {
+                    updateScore(false);
+                    currentGame['lives']--;
+                    if(currentGame['lives'] === 0){
+                        lostGame();
+                    }
                 }
+                newRound();
             }
-            newRound();
         }
+    }).on('keyup', function(e) {
+        keyDown[e.which] = null;
     });
 });

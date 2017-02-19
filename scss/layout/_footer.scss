@@ -22,5 +22,8 @@
         padding-left: 0px;
         padding-right: 10px;
         text-align: right;
+        & a{
+            cursor: pointer;
+        }
     }
 }
