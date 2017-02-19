@@ -13,7 +13,7 @@
         <title>仮名突撃 - Kana Assualt</title>
 
         <link rel="stylesheet" href="css/kana_totsugeki.css?v=0.1">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Inconsolata">
         <link rel="stylesheet" href="https://use.fontawesome.com/3510507754.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -23,14 +23,15 @@
     <body>
         <div class="game-wrapper">
             <div class="game-play-field">
-                <div class="game-question japanese">
-                    わ
-                </div>
+                <div class="game-question japanese"></div>
                 <div class="game-input">
-                    >__
-                    <input type="text" class="game-input-answer">
+                    <div class="carrot mono">
+                        >
+                    </div>
+                    <input type="text" class="game-input-answer" maxlength="3">
                 </div>
-                <div class="game-score">
+                <div class="game-input-underline"></div>
+                <div class="game-score mono">
                     0
                 </div>
             </div>
@@ -41,7 +42,7 @@
                     </a>
                 </div>
                 <div class="game-footer-item">
-                    <a href="" class="japanese">
+                    <a class="japanese language-switcher">
                         日本語
                     </a>
                 </div>

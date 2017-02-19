@@ -8,11 +8,14 @@
     max-width: 100vw;
 
     display: flex;
+
+    align-items: flex-end;
 }
 
 .game-footer-item{
     flex: 1 1 0;
     padding-left: 10px;
+    padding-bottom: 5px;
     text-align: left;
 
     &:last-of-type{

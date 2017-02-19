@@ -53,6 +53,7 @@ function newRound(){
             break;
     }
     $('.game-question').text(currentGame['display']);
+    $('.game-input-answer').val("");
 }
 
 function checkAnswer(){
@@ -60,6 +61,19 @@ function checkAnswer(){
     return (  gameSettings['romajiAnswers'  ] && userAnswer === currentGame['answers']['romaji'  ] 
            || gameSettings['hiraganaAnswers'] && userAnswer === currentGame['answers']['hiragana']
            || gameSettings['katakanaAnswers'] && userAnswer === currentGame['answers']['katakana'])
+}
+
+function updateScore( wonRound ){
+    if(wonRound){
+        currentGame['score'] += 100;
+    } else {
+        currentGame['score'] -= currentGame['score']-100<0?0:100;
+    }
+    $('.game-score').text(currentGame['score']);
+}
+
+function lostGame(){
+
 }
 
 $(document).ready(function(){
@@ -70,22 +84,27 @@ $(document).ready(function(){
         //If Enter was pressed
         if(e.which === 13){
             if(checkAnswer()){
-                currentGame['score'] += 100;
+                updateScore(true);
             } else {
+                updateScore(false);
                 currentGame['lives']--;
                 if(currentGame['lives'] === 0){
-
+                    lostGame();
                 }
             }
             newRound();
         }
     });
 
-    $.each(questions,function(key,value){
-        $.each(questions[key],function(key2,value2){
-            $.each(questions[key][key2],function(key3,value3){
-                //console.log((key==='a'?'':key) + key2 + " " + key3 + ": " + value3);
-            });
-        });
+    $('.language-switcher').click(function(){
+        if($(this).hasClass('japanese')){
+            $(this).text("English");
+            $(this).removeClass('japanese');
+            $(this).addClass('english');
+        } else {
+            $(this).text("日本語");
+            $(this).removeClass('english');
+            $(this).addClass('japanese');
+        }
     });
 });
