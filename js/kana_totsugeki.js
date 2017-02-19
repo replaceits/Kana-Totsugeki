@@ -5,7 +5,7 @@ var questions={a:{a:{katakana:"ア",hiragana:"あ"},i:{katakana:"イ",hiragana:"
 var gameSettings = {
     'hiraganaQuestions' : true,
     'katakanaQuestions' : true,
-    'romajiQuestions' : true,
+    'romajiQuestions' : false,
     'hiraganaAnswers' : true,
     'katakanaAnswers' : true,
     'romajiAnswers' : true,
@@ -91,6 +91,19 @@ function lostGame(){
 
 }
 
+function swapLanguage( languageJapanese ){
+    let classToAdd    = languageJapanese?'japanese':'english';
+    let classToRemove = languageJapanese?'english':'japanese';
+    $('.exit').text(languageJapanese?'出口':'Exit').addClass(classToAdd).removeClass(classToRemove);
+    $('.start').text(languageJapanese?'開始':'Start').addClass(classToAdd).removeClass(classToRemove);
+    $('.options').text(languageJapanese?'オプション':'Options').addClass(classToAdd).removeClass(classToRemove);
+    $('.questions').text(languageJapanese?'質問':'Questions').addClass(classToAdd).removeClass(classToRemove);
+    $('.answers').text(languageJapanese?'回答':'Answers').addClass(classToAdd).removeClass(classToRemove);
+    $('.romaji').text(languageJapanese?'ローマ字':'Romaji').addClass(classToAdd).removeClass(classToRemove);
+    $('.hiragana').text(languageJapanese?'平仮名':'Hiragana').addClass(classToAdd).removeClass(classToRemove);
+    $('.katakana').text(languageJapanese?'片仮名':'Katakana').addClass(classToAdd).removeClass(classToRemove);
+}
+
 $(document).ready(function(){
     var name = "gameSettings=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -125,15 +138,19 @@ $(document).ready(function(){
 
 
     $('.language-switcher').click(function(){
+        let languageJapanese;
         if($(this).hasClass('japanese')){
             $(this).text("English");
             $(this).removeClass('japanese');
             $(this).addClass('english');
+            languageJapanese = true;
         } else {
             $(this).text("日本語");
             $(this).removeClass('english');
             $(this).addClass('japanese');
+            languageJapanese = false;
         }
+        swapLanguage(languageJapanese);
     });
 
     $('.start').click(function(){
