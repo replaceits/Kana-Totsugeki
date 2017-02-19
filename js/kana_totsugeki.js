@@ -9,7 +9,8 @@ var gameSettings = {
     'hiraganaAnswers' : true,
     'katakanaAnswers' : true,
     'romajiAnswers' : true,
-    'lives' : 3
+    'lives' : 3,
+    'language' : 'english'
 };
 
 var currentGame = {
@@ -23,7 +24,12 @@ var currentGame = {
     'lives' : 3
 };
 
-function newRound(){
+function newRound( firstRun ){
+    if(firstRun){
+        currentGame['lives'] = gameSettings['lives'];
+        currentGame['score'] = 0;
+        $('.game-score').stop(true,true).text("0");
+    }
     questionKeys = Object.keys(questions);
     questionBaseChar = questionKeys[Math.floor(Math.random() * questionKeys.length)];
     questionBase = questions[questionBaseChar];
@@ -67,6 +73,34 @@ function newRound(){
     currentGame['display'] = questionTypes[Math.floor(Math.random() * questionTypes.length)];
     $('.game-question').text(currentGame['display']);
     $('.game-input-answer').val("");
+
+    $('.game-countdown-timer').stop(true,false).removeClass('down').removeAttr('style').delay(firstRun?250:0).animate({
+        left: -$(this).width()
+    },
+    {
+        duration: 5000, 
+        easing: "linear",
+        step: function(now, fx){
+            if(Math.abs(now) >= Math.abs(fx.end)/6){
+                $(this).addClass('down');
+            }
+        },
+        complete: function(){
+            if(checkAnswer()){
+                updateScore(true);
+                newRound(false);
+            } else {
+                updateScore(false);
+                currentGame['lives']--;
+                if(currentGame['lives'] === 0){
+                    lostGame();
+                } else {
+                    newRound(false);
+                }
+            }
+            $(this).removeClass('down');
+        }
+    });
 }
 
 function checkAnswer(){
@@ -82,13 +116,30 @@ function updateScore( wonRound ){
     } else {
         currentGame['score'] -= currentGame['score']-100<0?0:100;
     }
-    $('.game-score').animate({fakevalue: currentGame['score']},{step: function(now,fx){
-        $(this).text(Math.floor(now));
-    }},1000);
+    $('.game-score').stop(true,true).removeAttr('style').addClass(wonRound?'up':'down').animate({
+        fakevalue: currentGame['score']
+    },{
+        duration: 1000,
+        step: function(now,fx){
+            $(this).text(Math.floor(now));
+        },
+        complete: function(){
+            $(this).removeClass('up');
+            $(this).removeClass('down');
+        }
+    });
 }
 
 function lostGame(){
+    $('.game-countdown-timer').stop(true,false).removeAttr('style');
 
+    $('.final-score').text(currentGame['score']);
+
+    $('.game-play-field-wrapper').fadeOut(500);
+    $('.game-over').delay(500).css('display','flex').hide().fadeIn(250);
+    currentGame['lives'] = gameSettings['lives'];
+    currentGame['score'] = 0;
+    $('.game-score').stop(true,true).text("0");
 }
 
 function swapLanguage( languageJapanese ){
@@ -102,6 +153,9 @@ function swapLanguage( languageJapanese ){
     $('.romaji').text(languageJapanese?'ローマ字':'Romaji').addClass(classToAdd).removeClass(classToRemove);
     $('.hiragana').text(languageJapanese?'平仮名':'Hiragana').addClass(classToAdd).removeClass(classToRemove);
     $('.katakana').text(languageJapanese?'片仮名':'Katakana').addClass(classToAdd).removeClass(classToRemove);
+    $('.score').text(languageJapanese?'スコア':'Score').addClass(classToAdd).removeClass(classToRemove);
+    $('.restart').text(languageJapanese?'再起動':'Restart').addClass(classToAdd).removeClass(classToRemove);
+    $('.menu').text(languageJapanese?'メニュー':'Menu').addClass(classToAdd).removeClass(classToRemove);
 }
 
 $(document).ready(function(){
@@ -133,8 +187,16 @@ $(document).ready(function(){
             if(!gameSettings['katakanaQuestions']){
                 $('.questions-katakana').removeClass('enabled').addClass('disabled');
             }
+            if(gameSettings['language'] === 'japanese'){
+                swapLanguage(true);
+                $('.language-switcher').text("English");
+                $('.language-switcher').removeClass('japanese');
+                $('.language-switcher').addClass('english');
+            }
         }
     }
+
+    currentGame['lives'] = gameSettings['lives'];
 
 
     $('.language-switcher').click(function(){
@@ -151,15 +213,19 @@ $(document).ready(function(){
             languageJapanese = false;
         }
         swapLanguage(languageJapanese);
+        gameSettings['language'] = languageJapanese?'japanese':'english';
+        let expires = new Date();
+        expires.setTime(expires.getTime() + 2592000000);
+        document.cookie = "gameSettings=" + JSON.stringify(gameSettings) + ";expires=" + expires.toUTCString() + ";path=/";
     });
 
     $('.start').click(function(){
         $('.game-main-menu').fadeOut(500);
-        $('.game-play-field').delay(500).css('display','flex').hide().fadeIn(250);
+        $('.game-play-field-wrapper').delay(500).css('display','flex').hide().fadeIn(250);
         setTimeout(function(){
             $('.game-input-answer').focus();
         }, 500);
-        newRound();
+        newRound(true);
     });
 
     $('.options').click(function(){
@@ -169,6 +235,17 @@ $(document).ready(function(){
 
     $('.exit').click(function(){
         $('.game-options-menu').fadeOut(500);
+        $('.game-main-menu').delay(500).fadeIn(250);
+    });
+
+    $('.restart').click(function(){
+        $('.game-over').fadeOut(500);
+        $('.game-play-field-wrapper').delay(500).css('display','flex').hide().fadeIn(250);
+        newRound(true);
+    });
+
+    $('.menu').click(function(){
+        $('.game-over').fadeOut(500);
         $('.game-main-menu').delay(500).fadeIn(250);
     });
 
@@ -202,35 +279,31 @@ $(document).ready(function(){
             //If ESC was pressed
             case 27:
                 if(!$('.game-main-menu').is(":visible")){
+                    $('.game-countdown-timer').stop(true,false).removeAttr('style');
+                    $('.game-score').stop(true,true).text("0");
+                    currentGame['lives'] = gameSettings['lives'];
+                    currentGame['score'] = 0;
                     $('.game-options-menu').fadeOut(500);
-                    $('.game-play-field').fadeOut(500);
+                    $('.game-play-field-wrapper').fadeOut(500);
                     $('.game-main-menu').delay(500).fadeIn(250);
                 }
                 break;
         }
     });
 
-    var keyDown = {};
-
     $('.game-input-answer').on('keypress', function (e) {
         //If Enter was pressed
-        if(e.which === 13){
-            if (keyDown[e.which] === null && $('.game-input-answer').val() !== "") {
-                keyDown[e.which] = true;
-            
-                if(checkAnswer()){
-                    updateScore(true);
-                } else {
-                    updateScore(false);
-                    currentGame['lives']--;
-                    if(currentGame['lives'] === 0){
-                        lostGame();
-                    }
+        if(e.which === 13 && $('.game-input-answer').val() !== "") {
+            if(checkAnswer()){
+                updateScore(true);
+            } else {
+                updateScore(false);
+                currentGame['lives']--;
+                if(currentGame['lives'] === 0){
+                    lostGame();
                 }
-                newRound();
             }
+            newRound(false);
         }
-    }).on('keyup', function(e) {
-        keyDown[e.which] = null;
     });
 });

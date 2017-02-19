@@ -83,17 +83,34 @@
                 </div>
             </div>
 
-            <div class="game-play-field">
-                <div class="game-question japanese"></div>
-                <div class="game-input">
-                    <div class="carrot mono">
-                        >
+            <div class="game-play-field-wrapper">
+                <div class="game-countdown-timer"></div>
+                <div class="game-play-field">
+                    <div class="game-question japanese"></div>
+                    <div class="game-input">
+                        <div class="carrot mono">
+                            >
+                        </div>
+                        <input type="text" class="game-input-answer" maxlength="3" autofocus>
                     </div>
-                    <input type="text" class="game-input-answer" maxlength="3" autofocus>
+                    <div class="game-input-underline"></div>
+                    <div class="game-score mono">
+                        0
+                    </div>
                 </div>
-                <div class="game-input-underline"></div>
-                <div class="game-score mono">
-                    0
+            </div>
+
+            <div class="game-over">
+                <div class="game-over-header">
+                    <span class="score">Score</span>: <span class="final-score mono">0</span>
+                </div>
+                <div class="game-over-buttons">
+                    <div class="game-button restart">
+                        Restart
+                    </div>
+                    <div class="game-button menu">
+                        Menu
+                    </div>
                 </div>
             </div>
             
@@ -104,7 +121,7 @@
                     </a>
                 </div>
                 <div class="game-footer-item">
-                    <a class="japanese language-switcher">
+                    <a class="language-switcher japanese">
                         日本語
                     </a>
                 </div>
