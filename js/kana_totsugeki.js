@@ -123,7 +123,7 @@ function newRound( firstRun ){
 }
 
 function checkAnswer(){
-    let userAnswer = $('.game-input-answer').val();
+    let userAnswer = $('.game-input-answer').val().toLowerCase();
     return (  gameSettings['romajiAnswers'  ] && userAnswer === currentGame['answers']['romaji'  ] 
            || gameSettings['hiraganaAnswers'] && userAnswer === currentGame['answers']['hiragana']
            || gameSettings['katakanaAnswers'] && userAnswer === currentGame['answers']['katakana'])
