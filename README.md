@@ -13,7 +13,7 @@ Each kana you get right will give you 100 points and each you get wrong will tak
 
 At the end of the game (when you run out of lives) you will be shown your final score and the number of kana that you got correct!
 
-Enjoy!
+[Enjoy it live on my website](https://www.replaceits.me/kana-totsugeki/)!
 
 ## Development
 Written using jQuery 3.1.1 and SCSS.
