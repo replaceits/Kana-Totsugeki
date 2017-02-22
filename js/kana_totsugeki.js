@@ -1,6 +1,201 @@
 /// <reference path="../typings/index.d.ts" />
 
-var questions={a:{a:{katakana:"ア",hiragana:"あ"},i:{katakana:"イ",hiragana:"い"},u:{katakana:"ウ",hiragana:"う"},e:{katakana:"エ",hiragana:"え"},o:{katakana:"オ",hiragana:"お"}},k:{a:{katakana:"カ",hiragana:"か"},i:{katakana:"キ",hiragana:"き"},u:{katakana:"ク",hiragana:"く"},e:{katakana:"ケ",hiragana:"け"},o:{katakana:"コ",hiragana:"こ"}},s:{a:{katakana:"サ",hiragana:"さ"},i:{katakana:"シ",hiragana:"し"},u:{katakana:"ス",hiragana:"す"},e:{katakana:"セ",hiragana:"せ"},o:{katakana:"ソ",hiragana:"そ"}},t:{a:{katakana:"タ",hiragana:"た"},i:{katakana:"チ",hiragana:"ち"},u:{katakana:"ツ",hiragana:"つ"},e:{katakana:"テ",hiragana:"て"},o:{katakana:"ト",hiragana:"と"}},n:{a:{katakana:"ナ",hiragana:"な"},i:{katakana:"ニ",hiragana:"に"},u:{katakana:"ヌ",hiragana:"ぬ"},e:{katakana:"ネ",hiragana:"ね"},o:{katakana:"ノ",hiragana:"の"}},h:{a:{katakana:"ハ",hiragana:"は"},i:{katakana:"ヒ",hiragana:"ひ"},u:{katakana:"フ",hiragana:"ふ"},e:{katakana:"ヘ",hiragana:"へ"},o:{katakana:"ホ",hiragana:"ほ"}},m:{a:{katakana:"マ",hiragana:"ま"},i:{katakana:"ミ",hiragana:"み"},u:{katakana:"ム",hiragana:"む"},e:{katakana:"メ",hiragana:"め"},o:{katakana:"モ",hiragana:"も"}},y:{a:{katakana:"ヤ",hiragana:"や"},u:{katakana:"ユ",hiragana:"ゆ"},o:{katakana:"ヨ",hiragana:"よ"}},r:{a:{katakana:"ラ",hiragana:"ら"},i:{katakana:"リ",hiragana:"り"},u:{katakana:"ル",hiragana:"る"},e:{katakana:"レ",hiragana:"れ"},o:{katakana:"ロ",hiragana:"ろ"}},w:{a:{katakana:"ワ",hiragana:"わ"},o:{katakana:"ヲ",hiragana:"を"}},n:{n:{katakana:"ン",hiragana:"ん"}}};
+var questions = {
+    a: {
+        katakana: "ア",
+        hiragana: "あ"
+    },
+    i: {
+        katakana: "イ",
+        hiragana: "い"
+    },
+    u: {
+        katakana: "ウ",
+        hiragana: "う"
+    },
+    e: {
+        katakana: "エ",
+        hiragana: "え"
+    },
+    o: {
+        katakana: "オ",
+        hiragana: "お"
+    },
+    
+    ka: {
+        katakana: "カ",
+        hiragana: "か"
+    },
+    ki: {
+        katakana: "キ",
+        hiragana: "き"
+    },
+    ku: {
+        katakana: "ク",
+        hiragana: "く"
+    },
+    ke: {
+        katakana: "ケ",
+        hiragana: "け"
+    },
+    ko: {
+        katakana: "コ",
+        hiragana: "こ"
+    },
+
+    sa: {
+        katakana: "サ",
+        hiragana: "さ"
+    },
+    shi: {
+        katakana: "シ",
+        hiragana: "し"
+    },
+    su: {
+        katakana: "ス",
+        hiragana: "す"
+    },
+    se: {
+        katakana: "セ",
+        hiragana: "せ"
+    },
+    so: {
+        katakana: "ソ",
+        hiragana: "そ"
+    },
+
+    ta: {
+        katakana: "タ",
+        hiragana: "た"
+    },
+    chi: {
+        katakana: "チ",
+        hiragana: "ち"
+    },
+    tsu: {
+        katakana: "ツ",
+        hiragana: "つ"
+    },
+    te: {
+        katakana: "テ",
+        hiragana: "て"
+    },
+    to: {
+        katakana: "ト",
+        hiragana: "と"
+    },
+
+    na: {
+        katakana: "ナ",
+        hiragana: "な"
+    },
+    ni: {
+        katakana: "ニ",
+        hiragana: "に"
+    },
+    nu: {
+        katakana: "ヌ",
+        hiragana: "ぬ"
+    },
+    ne: {
+        katakana: "ネ",
+        hiragana: "ね"
+    },
+    no: {
+        katakana: "ノ",
+        hiragana: "の"
+    },
+
+    ha: {
+        katakana: "ハ",
+        hiragana: "は"
+    },
+    hi: {
+        katakana: "ヒ",
+        hiragana: "ひ"
+    },
+    fu: {
+        katakana: "フ",
+        hiragana: "ふ"
+    },
+    he: {
+        katakana: "ヘ",
+        hiragana: "へ"
+    },
+    ho: {
+        katakana: "ホ",
+        hiragana: "ほ"
+    },
+    
+    ma: {
+        katakana: "マ",
+        hiragana: "ま"
+    },
+    mi: {
+        katakana: "ミ",
+        hiragana: "み"
+    },
+    mu: {
+        katakana: "ム",
+        hiragana: "む"
+    },
+    me: {
+        katakana: "メ",
+        hiragana: "め"
+    },
+    mo: {
+        katakana: "モ",
+        hiragana: "も"
+    },
+
+    ya: {
+        katakana: "ヤ",
+        hiragana: "や"
+    },
+    yu: {
+        katakana: "ユ",
+        hiragana: "ゆ"
+    },
+    yo: {
+        katakana: "ヨ",
+        hiragana: "よ"
+    },
+    
+    ra: {
+        katakana: "ラ",
+        hiragana: "ら"
+    },
+    ri: {
+        katakana: "リ",
+        hiragana: "り"
+    },
+    ru: {
+        katakana: "ル",
+        hiragana: "る"
+    },
+    re: {
+        katakana: "レ",
+        hiragana: "れ"
+    },
+    ro: {
+        katakana: "ロ",
+        hiragana: "ろ"
+    },
+
+    wa: {
+        katakana: "ワ",
+        hiragana: "わ"
+    },
+    wo: {
+        katakana: "ヲ",
+        hiragana: "を"
+    },
+    
+    n: {
+        katakana: "ン",
+        hiragana: "ん"
+    }
+};
 
 var gameSettings = {
     'hiraganaQuestions' : true,
@@ -51,33 +246,13 @@ function newRound( firstRun ){
     setTimeout(function(){
         $('.game-input-answer').focus();
     }, 500);
-    questionKeys = Object.keys(questions);
-    questionBaseChar = questionKeys[Math.floor(Math.random() * questionKeys.length)];
-    questionBase = questions[questionBaseChar];
-    questionBaseKeys = Object.keys(questionBase);
-    questionSecondChar = questionBaseKeys[Math.floor(Math.random() * questionBaseKeys.length)];
-    question = questionBase[questionSecondChar];
+
+    let questionKey = (Object.keys(questions))[Math.floor(Math.random() * Object.keys(questions).length)];
+    let question = questions[questionKey];
     currentGame['answers']['hiragana'] = question['hiragana'];
     currentGame['answers']['katakana'] = question['katakana'];
-    currentGame['answers']['romaji'] =  questionBaseChar   == 'a' ? questionSecondChar
-                                       :questionSecondChar == 'n' ? questionBaseChar
-                                       :questionBaseChar + questionSecondChar;
-    switch(currentGame['answers']['romaji']){
-        case 'si':
-            currentGame['answers']['romaji'] = 'shi';
-            break;
-        case 'ti':
-            currentGame['answers']['romaji'] = 'chi';
-            break;
-        case 'tu':
-            currentGame['answers']['romaji'] = 'tsu';
-            break;
-        case 'hu':
-            currentGame['answers']['romaji'] = 'fu';
-            break;
-        default:
-            break;
-    }
+    currentGame['answers']['romaji'] =  questionKey;
+
 
     let questionTypes = new Array();
 
