@@ -316,30 +316,56 @@ $(document).ready(function(){
     });
 
     $('.start').click( function(){
-        $('.game-main-menu').fadeOut(500);
-        $('.game-play-field-wrapper').delay(500).css('display','flex').hide().fadeIn(250);
-        newRound(true);
+        $('.game-main-menu').fadeOut({
+            duration: 500, 
+
+            complete: function(){
+                newRound(true);
+                $('.game-play-field-wrapper').css('display','flex').hide().fadeIn(250);
+            }
+        });
+        
     });
 
     $('.options').click( function(){
-        $('.game-main-menu').fadeOut(500);
-        $('.game-options-menu').delay(500).css('display','flex').hide().fadeIn(250);
+        $('.game-main-menu').fadeOut({
+            duration: 500,
+
+            complete: function(){
+                $('.game-options-menu').css('display','flex').hide().fadeIn(250);
+            }
+        });
     });
 
     $('.exit').click( function(){
-        $('.game-options-menu').fadeOut(500);
-        $('.game-main-menu').delay(500).fadeIn(250);
+        $('.game-options-menu').fadeOut({
+            duration: 500,
+
+            complete: function(){
+                $('.game-main-menu').fadeIn(250);
+            }
+        });
     });
 
     $('.restart').click( function(){
-        $('.game-over').fadeOut(500);
-        $('.game-play-field-wrapper').delay(500).css('display','flex').hide().fadeIn(250);
-        newRound(true);
+        $('.game-over').fadeOut({
+            duration: 500,
+            
+            complete: function(){
+                newRound(true);
+                $('.game-play-field-wrapper').css('display','flex').hide().fadeIn(250);
+            }
+        });
     });
 
     $('.menu').click( function(){
-        $('.game-over').fadeOut(500);
-        $('.game-main-menu').delay(500).fadeIn(250);
+        $('.game-over').fadeOut({
+            duration: 500,
+            
+            complete: function(){
+                $('.game-main-menu').fadeIn(250);
+            }
+        });
     });
 
     $('.game-options-medium-button').click( function(){
@@ -402,7 +428,7 @@ $(document).ready(function(){
         }
     });
 
-    $('.game-input-answer').on('keypress', function( event ){
+    $('.game-input-answer').on( 'keypress', function( event ){
         // If Enter was pressed
         if( event.which === 13 && $('.game-input-answer').val() !== "" ){
             if( checkAnswer() ){
