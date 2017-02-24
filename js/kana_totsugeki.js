@@ -95,10 +95,12 @@ function newRound( firstRun ){
         currentGame['questions'] = $.extend(true,{},gameSettings['questions']);
     }
 
+    $('.game-input-answer').prop('disabled',false);
+
     // Set focus to the input (otherwise user may not be ready to type)
     setTimeout(function(){
         $('.game-input-answer').focus();
-    }, 500);
+    }, 250);
 
     // Generate question
     let questionKey = Object.keys( currentGame['questions'] )[ Math.floor( Math.random() * Object.keys( currentGame['questions'] ).length )];
@@ -152,6 +154,8 @@ function newRound( firstRun ){
 }
 
 function roundOver(){
+    $('.game-countdown-timer').stop(true,false);
+    $('.game-input-answer').prop('disabled',true);
     if( checkAnswer() ){
         if( gameSettings['noRepeats'] ){
             delete currentGame['questions'][currentGame['answers']['romaji']];
@@ -162,8 +166,24 @@ function roundOver(){
     } else {
         updateScore(false);
 
-        if( !lostLife() ){
-            newRound(false);
+        $('.game-heart:nth-child(' + currentGame['lives'] + ')').addClass('down').children('i').removeClass('fa-heart').addClass('fa-heart-o');
+
+        if( gameSettings['showCorrect'] ){
+            $('.game-question').addClass('incorrect').text(
+                currentGame['answers']['romaji'] + ' ' 
+                + currentGame['answers']['hiragana'] + ' '
+                + currentGame['answers']['katakana']);
+            setTimeout(function(){
+                $('.game-question').removeClass('incorrect');
+                $('.game-input-answer').prop('disabled',false).focus();
+                if( !lostLife() ){
+                    newRound(false);
+                }
+            }, 2000);
+        } else {
+            if( !lostLife() ){
+                newRound(false);
+            }
         }
     }
 }
@@ -224,7 +244,6 @@ function lostGame(){
 }
 
 function lostLife(){
-    $('.game-heart:nth-child(' + currentGame['lives'] + ')').addClass('down').children('i').removeClass('fa-heart').addClass('fa-heart-o');
     currentGame['lives']--;
     if( currentGame['lives'] === 0 ){
         lostGame();
@@ -382,19 +401,6 @@ function parseCookie(){
     }
 }
 
-/* 
- *  _____________________________________________________________________________________________________________
- * |                                             Cookie Layout                                                   |
- * |_____________________________________________________________________________________________________________|
- * | romajiAnswers | hiraganaAnswers | katakanaAnswers | romajiQuestions | hiraganaQuestions | katakanaQuestions |
- * |             0 |               1 |               2 |               3 |                 4 |                 5 |
- * |_______________|_________________|_________________|_________________|___________________|___________________|
- * |     noRepeats |     showCorrect |        japanese |           lives |             speed |                   |
- * |             6 |               7 |               8 |               9 |                10 |                   |
- * |_______________|_________________|_________________|_________________|___________________|___________________|
- * 
- */
-
 function saveCookie(){
     let expires = new Date();
     let cookieValue = '';
@@ -416,6 +422,8 @@ function saveCookie(){
 
 $(document).ready(function(){
     parseCookie();
+
+    $('.game-input-answer').prop('disabled',true);
 
     $('.language-switcher').click( function(){
         let languageJapanese;

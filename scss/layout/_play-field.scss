@@ -13,20 +13,27 @@
     align-content: center;
     align-items: center;
 
-    width: 350px;
+    width: 100vw;
 }
 
 .game-question{
     font-size: 10em;
     text-shadow: -1px 1px 5px rgba(0,0,0,0.5);
+    transition: color 0s linear;
+    color: $color-white;
+
+    &.incorrect{
+        transition: color 0.75s ease;
+        color: $color-complimentary-primary;
+    }
 }
 
 .game-input{
     font-size: 4em;
     position: relative;
-    min-width: 100%;
-    width: 100%;
-    max-width: 100%;
+    min-width: 350px;
+    width: 350px;
+    max-width: 350px;
 
     .carrot{
         position: absolute;
@@ -35,9 +42,9 @@
     }
 
     & input{
-        min-width: 100%;
-        width: 100%;
-        max-width: 100%;
+        min-width: 350px;
+        width: 350px;
+        max-width: 350px;
         font-size: 3rem;
         text-align: center;
         color: $color-white;
@@ -52,9 +59,9 @@
     height: 5px;
     max-height: 5px;
 
-    min-width: 100%;
-    width: 100%;
-    max-width: 100%;
+    min-width: 350px;
+    width: 350px;
+    max-width: 350px;
 
     border-radius: 10px;
 
