@@ -60,6 +60,34 @@ var currentGame = {
     }
 };
 
+var GameTimer = {
+    _elapsed: 0,
+    _lastTime: (new Date()).getTime(),
+    _paused: true,
+
+    start: function(){
+        this._lastTime = (new Date()).getTime();
+        this._paused = false;
+    },
+    pause: function(){
+        this._elapsed += (new Date()).getTime() - this._lastTime;
+        this._paused = true;
+    },
+    restart: function(){
+        this._elapsed = 0;
+        this._lastTime = (new Date()).getTime();
+        this._paused = false;
+    },
+    time: function(){
+        if( this._paused ){
+            return this._elapsed;
+        } else {
+            return this._elapsed + (new Date()).getTime() - this._lastTime;
+        }
+    }
+};
+
+
 function newRound( firstRun ){
     if( firstRun ){
 
