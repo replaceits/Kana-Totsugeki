@@ -61,6 +61,7 @@ var currentGame = {
 
 function newRound( firstRun ){
     if( firstRun ){
+        
         currentGame['questions'] = $.extend(true,{},gameSettings['questions']);
         currentGame[    'lives'] = gameSettings[    'lives'];
         currentGame[  'correct'] = 0;
