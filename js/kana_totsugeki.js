@@ -41,6 +41,7 @@ var gameSettings = {
     'katakanaAnswers'   : true,
     'romajiAnswers'     : true,
     'noRepeats'         : true,
+    'showCorrect'       : true,
     'lives'             : 3,
     'language'          : 'english',
     'speed'             : 'medium'
@@ -61,7 +62,7 @@ var currentGame = {
 
 function newRound( firstRun ){
     if( firstRun ){
-        
+
         currentGame['questions'] = $.extend(true,{},gameSettings['questions']);
         currentGame[    'lives'] = gameSettings[    'lives'];
         currentGame[  'correct'] = 0;
@@ -152,7 +153,9 @@ function newRound( firstRun ){
 
 function roundOver(){
     if( checkAnswer() ){
-        delete currentGame['questions'][currentGame['answers']['romaji']];
+        if( gameSettings['noRepeats'] ){
+            delete currentGame['questions'][currentGame['answers']['romaji']];
+        }
         currentGame['correct']++;
         updateScore(true);
         newRound(false);
@@ -259,8 +262,8 @@ function swapLanguage( languageJapanese ){
  * | romajiAnswers | hiraganaAnswers | katakanaAnswers | romajiQuestions | hiraganaQuestions | katakanaQuestions |
  * |             0 |               1 |               2 |               3 |                 4 |                 5 |
  * |_______________|_________________|_________________|_________________|___________________|___________________|
- * |     noRepeats |        japanese |           lives |           speed |                   |                   |
- * |             6 |               7 |               8 |               9 |                   |                   |
+ * |     noRepeats |     showCorrect |        japanese |           lives |             speed |                   |
+ * |             6 |               7 |               8 |               9 |                10 |                   |
  * |_______________|_________________|_________________|_________________|___________________|___________________|
  * 
  */
@@ -304,24 +307,27 @@ function parseCookie(){
                         variableToSet = 'noRepeats';
                         break;
                     case 7:
-                        variableToSet = 'language';
+                        variableToSet = 'showCorrect';
                         break;
                     case 8:
-                        variableToSet = 'lives';
+                        variableToSet = 'language';
                         break;
                     case 9:
+                        variableToSet = 'lives';
+                        break;
+                    case 10:
                         variableToSet = 'speed';
                         break;
                     default:
                         break;
                 }
-                if( i < 7 ){
+                if( i < 8 ){
                     gameSettings[variableToSet] = cookieValue === '1';
-                } else if( i === 7 ){
-                    gameSettings[variableToSet] = cookieValue === '1' ? 'japanese' : 'english';
                 } else if( i === 8 ){
-                    gameSettings[variableToSet] = cookieValue === '1' ? 1 : cookieValue === '3' ? 3 : 5;
+                    gameSettings[variableToSet] = cookieValue === '1' ? 'japanese' : 'english';
                 } else if( i === 9 ){
+                    gameSettings[variableToSet] = cookieValue === '1' ? 1 : cookieValue === '3' ? 3 : 5;
+                } else if( i === 10 ){
                     gameSettings[variableToSet] = cookieValue === '0' ? 'slow' : cookieValue === '1' ? 'medium' : 'fast';
                 }
             }
@@ -349,6 +355,14 @@ function parseCookie(){
             if( !gameSettings['katakanaQuestions'] ){
                 $('.questions-katakana').removeClass( 'enabled' ).addClass( 'disabled' );
             }
+
+            if( !gameSettings['showCorrect'] ){
+                $('.questions-show-correct').removeClass( 'enabled' ).addClass( 'disabled' );
+            }
+
+            if( !gameSettings['noRepeats'] ){
+                $('.answers-no-repeat').removeClass( 'enabled' ).addClass( 'disabled' );
+            }
             
             $('.button-lives').removeClass('disabled').removeClass('enabled').addClass('disabled');
             $('.button-speed').removeClass('disabled').removeClass('enabled').addClass('disabled');
@@ -368,19 +382,33 @@ function parseCookie(){
     }
 }
 
+/* 
+ *  _____________________________________________________________________________________________________________
+ * |                                             Cookie Layout                                                   |
+ * |_____________________________________________________________________________________________________________|
+ * | romajiAnswers | hiraganaAnswers | katakanaAnswers | romajiQuestions | hiraganaQuestions | katakanaQuestions |
+ * |             0 |               1 |               2 |               3 |                 4 |                 5 |
+ * |_______________|_________________|_________________|_________________|___________________|___________________|
+ * |     noRepeats |     showCorrect |        japanese |           lives |             speed |                   |
+ * |             6 |               7 |               8 |               9 |                10 |                   |
+ * |_______________|_________________|_________________|_________________|___________________|___________________|
+ * 
+ */
+
 function saveCookie(){
     let expires = new Date();
     let cookieValue = '';
-    cookieValue += gameSettings['romajiAnswers'] ? '1' : '0';
-    cookieValue += gameSettings['hiraganaAnswers'] ? '1' : '0';
-    cookieValue += gameSettings['katakanaAnswers'] ? '1' : '0';
-    cookieValue += gameSettings['romajiQuestions'] ? '1' : '0';
+    cookieValue += gameSettings[    'romajiAnswers'] ? '1' : '0';
+    cookieValue += gameSettings[  'hiraganaAnswers'] ? '1' : '0';
+    cookieValue += gameSettings[  'katakanaAnswers'] ? '1' : '0';
+    cookieValue += gameSettings[  'romajiQuestions'] ? '1' : '0';
     cookieValue += gameSettings['hiraganaQuestions'] ? '1' : '0';
     cookieValue += gameSettings['katakanaQuestions'] ? '1' : '0';
-    cookieValue += gameSettings['noRepeats'] ? '1' : '0';
-    cookieValue += gameSettings['language'] === 'japanese' ? '1' : '0';
-    cookieValue += gameSettings['lives'] === 1 ? '1' : gameSettings['lives'] === 3 ? '3' : '5';
-    cookieValue += gameSettings['speed'] === 'slow' ? '0' : gameSettings['speed'] === 'medium' ? '1' : '2';
+    cookieValue += gameSettings[        'noRepeats'] ? '1' : '0';
+    cookieValue += gameSettings[      'showCorrect'] ? '1' : '0';
+    cookieValue += gameSettings[         'language'] === 'japanese' ? '1' : '0';
+    cookieValue += gameSettings[            'lives'] === 1 ? '1' : gameSettings['lives'] === 3 ? '3' : '5';
+    cookieValue += gameSettings[            'speed'] === 'slow' ? '0' : gameSettings['speed'] === 'medium' ? '1' : '2';
 
     expires.setTime(expires.getTime() + 2592000000);
     document.cookie = "gameSettings=" + cookieValue + ";expires=" + expires.toUTCString() + ";path=/";
@@ -497,6 +525,10 @@ $(document).ready(function(){
             gameSettings['hiraganaQuestions'] = $(this).hasClass('enabled');
         } else if( $(this).hasClass('questions-katakana') ){
             gameSettings['katakanaQuestions'] = $(this).hasClass('enabled');
+        } else if( $(this).hasClass('questions-show-correct') ){
+            gameSettings['showCorrect'] = $(this).hasClass('enabled');
+        } else if( $(this).hasClass('answers-no-repeat') ){
+            gameSettings['noRepeats'] = $(this).hasClass('enabled');
         }
 
         saveCookie();
