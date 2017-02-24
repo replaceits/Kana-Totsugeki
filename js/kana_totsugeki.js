@@ -40,13 +40,14 @@ var gameSettings = {
     'hiraganaAnswers'   : true,
     'katakanaAnswers'   : true,
     'romajiAnswers'     : true,
+    'noRepeats'         : true,
     'lives'             : 3,
     'language'          : 'english',
     'speed'             : 'medium'
 };
 
 var currentGame = {
-    'questions' : gameSettings['questions'],
+    'questions' : $.extend(true,{},gameSettings['questions']),
     'display'   : '',
     'score'     : 0,
     'lives'     : 3,
@@ -60,8 +61,9 @@ var currentGame = {
 
 function newRound( firstRun ){
     if( firstRun ){
-        currentGame[  'lives'] = gameSettings['lives'];
-        currentGame['correct'] = 0;
+        currentGame['questions'] = $.extend(true,{},gameSettings['questions']);
+        currentGame[    'lives'] = gameSettings[    'lives'];
+        currentGame[  'correct'] = 0;
 
         for(let i = 0; i < 5; i++){
             $('.game-heart:nth-of-type(' + (i + 1) + ')').removeClass('down').show().children('i').removeClass('fa-heart-o').removeClass('fa-heart').addClass('fa-heart');
@@ -84,6 +86,11 @@ function newRound( firstRun ){
                 $(this).removeClass('down');
             }
         });
+    }
+
+    // Reset questions if user has answered them all
+    if( gameSettings['noRepeats'] && Object.keys( currentGame['questions'] ).length === 0 ){
+        currentGame['questions'] = $.extend(true,{},gameSettings['questions']);
     }
 
     // Set focus to the input (otherwise user may not be ready to type)
@@ -118,7 +125,7 @@ function newRound( firstRun ){
     $('.game-input-answer').val("");
 
     // Reset the countdown timer
-    $('.game-countdown-timer').stop(true,false).removeClass('down').removeAttr('style').delay(firstRun?250:0).animate({
+    $('.game-countdown-timer').stop(true,false).removeClass('down').removeAttr('style').delay( firstRun ? 250 : 0 ).animate({
         left: -$(this).width()
     },
     {
@@ -136,20 +143,25 @@ function newRound( firstRun ){
         },
 
         complete: function(){
-            if( checkAnswer() ){
-                currentGame['correct']++;
-                updateScore(true);
-                newRound(false);
-            } else {
-                updateScore(false);
-
-                if( !lostLife() ){
-                    newRound(false);
-                }
-            }
+            roundOver();
             $(this).removeClass('down');
         }
     });
+}
+
+function roundOver(){
+    if( checkAnswer() ){
+        delete currentGame['questions'][currentGame['answers']['romaji']];
+        currentGame['correct']++;
+        updateScore(true);
+        newRound(false);
+    } else {
+        updateScore(false);
+
+        if( !lostLife() ){
+            newRound(false);
+        }
+    }
 }
 
 function checkAnswer(){
@@ -192,8 +204,14 @@ function lostGame(){
     $('.final-score'  ).text( currentGame['score'  ] );
     $('.final-correct').text( currentGame['correct'] );
     
-    $('.game-play-field-wrapper').fadeOut(500);
-    $('.game-over' ).delay(500).css( 'display', 'flex' ).hide().fadeIn(250);
+    $('.game-play-field-wrapper').fadeOut({
+        duration: 500,
+
+        complete: function(){
+            $('.game-over' ).css( 'display', 'flex' ).hide().fadeIn(250);
+        }  
+    });
+
     $('.game-score').stop(true,true);
 
     currentGame['lives'  ] = gameSettings['lives'];
@@ -233,6 +251,19 @@ function swapLanguage( languageJapanese ){
     $( '.fast'     ).text( languageJapanese ? '速い'       : 'Fast'      ).addClass( classToAdd ).removeClass( classToRemove );
 }
 
+/* 
+ *  _____________________________________________________________________________________________________________
+ * |                                             Cookie Layout                                                   |
+ * |_____________________________________________________________________________________________________________|
+ * | romajiAnswers | hiraganaAnswers | katakanaAnswers | romajiQuestions | hiraganaQuestions | katakanaQuestions |
+ * |             0 |               1 |               2 |               3 |                 4 |                 5 |
+ * |_______________|_________________|_________________|_________________|___________________|___________________|
+ * |     noRepeats |        japanese |           lives |           speed |                   |                   |
+ * |             6 |               7 |               8 |               9 |                   |                   |
+ * |_______________|_________________|_________________|_________________|___________________|___________________|
+ * 
+ */
+
 function parseCookie(){
     let cookieName = "gameSettings=";
     let cookies = decodeURIComponent(document.cookie).split(';');
@@ -244,7 +275,55 @@ function parseCookie(){
         }
 
         if( cookie.indexOf(cookieName) == 0 ){
-            gameSettings = $.parseJSON(cookie.substring(cookieName.length, cookie.length));
+            let gameCookie = cookie.substring(cookieName.length, cookie.length);
+
+            for(let i = 0; i < gameCookie.length; i++){
+                let cookieValue = gameCookie[i];
+                let variableToSet = null;
+                switch(i){
+                    case 0:
+                        variableToSet = 'romajiAnswers';
+                        break;
+                    case 1:
+                        variableToSet = 'hiraganaAnswers';
+                        break;
+                    case 2:
+                        variableToSet = 'katakanaAnswers';
+                        break;
+                    case 3:
+                        variableToSet = 'romajiQuestions';
+                        break;
+                    case 4:
+                        variableToSet = 'hiraganaQuestions';
+                        break;
+                    case 5:
+                        variableToSet = 'katakanaQuestions';
+                        break;
+                    case 6:
+                        variableToSet = 'noRepeats';
+                        break;
+                    case 7:
+                        variableToSet = 'language';
+                        break;
+                    case 8:
+                        variableToSet = 'lives';
+                        break;
+                    case 9:
+                        variableToSet = 'speed';
+                        break;
+                    default:
+                        break;
+                }
+                if( i < 7 ){
+                    gameSettings[variableToSet] = cookieValue === '1';
+                } else if( i === 7 ){
+                    gameSettings[variableToSet] = cookieValue === '1' ? 'japanese' : 'english';
+                } else if( i === 8 ){
+                    gameSettings[variableToSet] = cookieValue === '1' ? 1 : cookieValue === '3' ? 3 : 5;
+                } else if( i === 9 ){
+                    gameSettings[variableToSet] = cookieValue === '0' ? 'slow' : cookieValue === '1' ? 'medium' : 'fast';
+                }
+            }
 
             if( !gameSettings['romajiAnswers'] ){
                 $('.answers-romaji').removeClass( 'enabled' ).addClass( 'disabled' );
@@ -290,8 +369,20 @@ function parseCookie(){
 
 function saveCookie(){
     let expires = new Date();
+    let cookieValue = '';
+    cookieValue += gameSettings['romajiAnswers'] ? '1' : '0';
+    cookieValue += gameSettings['hiraganaAnswers'] ? '1' : '0';
+    cookieValue += gameSettings['katakanaAnswers'] ? '1' : '0';
+    cookieValue += gameSettings['romajiQuestions'] ? '1' : '0';
+    cookieValue += gameSettings['hiraganaQuestions'] ? '1' : '0';
+    cookieValue += gameSettings['katakanaQuestions'] ? '1' : '0';
+    cookieValue += gameSettings['noRepeats'] ? '1' : '0';
+    cookieValue += gameSettings['language'] === 'japanese' ? '1' : '0';
+    cookieValue += gameSettings['lives'] === 1 ? '1' : gameSettings['lives'] === 3 ? '3' : '5';
+    cookieValue += gameSettings['speed'] === 'slow' ? '0' : gameSettings['speed'] === 'medium' ? '1' : '2';
+
     expires.setTime(expires.getTime() + 2592000000);
-    document.cookie = "gameSettings=" + JSON.stringify(gameSettings) + ";expires=" + expires.toUTCString() + ";path=/";
+    document.cookie = "gameSettings=" + cookieValue + ";expires=" + expires.toUTCString() + ";path=/";
 }
 
 $(document).ready(function(){
@@ -324,7 +415,6 @@ $(document).ready(function(){
                 $('.game-play-field-wrapper').css('display','flex').hide().fadeIn(250);
             }
         });
-        
     });
 
     $('.options').click( function(){
@@ -342,7 +432,7 @@ $(document).ready(function(){
             duration: 500,
 
             complete: function(){
-                $('.game-main-menu').fadeIn(250);
+                $('.game-main-menu').hide().fadeIn(250);
             }
         });
     });
@@ -350,7 +440,7 @@ $(document).ready(function(){
     $('.restart').click( function(){
         $('.game-over').fadeOut({
             duration: 500,
-            
+
             complete: function(){
                 newRound(true);
                 $('.game-play-field-wrapper').css('display','flex').hide().fadeIn(250);
@@ -363,7 +453,7 @@ $(document).ready(function(){
             duration: 500,
             
             complete: function(){
-                $('.game-main-menu').fadeIn(250);
+                $('.game-main-menu').hide().fadeIn(250);
             }
         });
     });
@@ -420,7 +510,7 @@ $(document).ready(function(){
                     $( '.game-options-menu'       ).fadeOut(500);
                     $( '.game-play-field-wrapper' ).fadeOut(500);
                     $( '.game-over'               ).fadeOut(500);
-                    $( '.game-main-menu' ).delay(500).fadeIn(250);
+                    $( '.game-main-menu' ).delay(500).hide().fadeIn(250);
                 }
                 break;
             default:
@@ -431,16 +521,7 @@ $(document).ready(function(){
     $('.game-input-answer').on( 'keypress', function( event ){
         // If Enter was pressed
         if( event.which === 13 && $('.game-input-answer').val() !== "" ){
-            if( checkAnswer() ){
-                currentGame['correct']++;
-                updateScore( true );
-                newRound(   false );
-            } else {
-                updateScore( false );
-                if( !lostLife() ){
-                    newRound( false );
-                }
-            }
+            roundOver();
         }
     });
     
