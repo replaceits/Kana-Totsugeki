@@ -80,9 +80,9 @@ var GameTimer = {
     },
     time: function(){
         if( this._paused ){
-            return this._elapsed;
+            return Math.floor(this._elapsed / 1000);
         } else {
-            return this._elapsed + (new Date()).getTime() - this._lastTime;
+            return Math.floor((this._elapsed + (new Date()).getTime() - this._lastTime) / 1000);
         }
     }
 };
@@ -116,6 +116,9 @@ function newRound( firstRun ){
                 $(this).removeClass('down');
             }
         });
+        GameTimer.restart();
+    } else {
+        GameTimer.start();
     }
 
     // Reset questions if user has answered them all
@@ -182,6 +185,7 @@ function newRound( firstRun ){
 }
 
 function roundOver(){
+    GameTimer.pause();
     $('.game-countdown-timer').stop(true,false);
     $('.game-input-answer').prop('disabled',true);
     if( checkAnswer() ){
@@ -253,8 +257,9 @@ function updateScore( wonRound ){
 function lostGame(){
     $('.game-countdown-timer').stop(true,false).removeAttr('style');
 
-    $('.final-score'  ).text( currentGame['score'  ] );
+    $('.final-score'  ).text( currentGame[  'score'] );
     $('.final-correct').text( currentGame['correct'] );
+    $('.final-seconds').text(       GameTimer.time() );
     
     $('.game-play-field-wrapper').fadeOut({
         duration: 500,
