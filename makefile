@@ -5,7 +5,7 @@ BUILD_TMP_PATH  = $(BUILD)tmp/
 SCSS_PATH       = ./scss/
 SCSS_MAIN       = $(SCSS_PATH)kana_totsugeki.scss
 SCSS_FILES      = $(shell find $(SCSS_PATH) -type f -name '*.scss')
-
+ 
 CSS_TARGET_PATH = $(BUILD_PATH)css/
 CSS_TARGET      = $(CSS_TARGET_PATH)kana_totsugeki.css
 
