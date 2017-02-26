@@ -8,7 +8,7 @@ SCSS_FILES      = $(shell find $(SCSS_PATH) -type f -name '*.scss')
  
 CSS_TARGET_PATH = $(BUILD_PATH)css/
 CSS_TARGET      = $(CSS_TARGET_PATH)kana_totsugeki.css
-
+  
 JS_PATH         = ./js/
 JS_FILES        = $(shell find $(JS_PATH) -type f -name '*.js')
 JS_TARGET_PATH  = $(BUILD_PATH)js/
