@@ -4,9 +4,10 @@
   "description": "A simple game for learning the Japanese kana",
   "main": "index.js",
   "scripts": {
-    "build": "make",
-    "clean": "make clean",
-    "serve": "http-server ./build/kana-totsugeki -p 3031 -a localhost -g -b -e html -r --no-dotfiles --cors"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -23,9 +24,22 @@
     "url": "https://github.com/alic3dev/Kana-Totsugeki/issues"
   },
   "homepage": "https://github.com/alic3dev/Kana-Totsugeki#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
-    "http-server": "^14.1.1",
+    "@types/react": "^18.2.22",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "@vitejs/plugin-react": "^4.1.0",
+    "eslint": "^8.50.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
     "sass": "^1.68.0",
-    "yuicompressor": "^2.4.8"
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
   }
 }

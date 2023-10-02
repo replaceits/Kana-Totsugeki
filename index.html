@@ -1,215 +1,75 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="description" content="A simple game for learning the Japanese kana!">
-		<meta name="subject" content="Game">
-		<meta name="author" content="Sidney Williams">
-		<meta name="url" content="https://www.replaceits.me/kana-totsugeki">
-		<meta name="rating" content="General">
-        <meta name="viewport" content="user-scalable=0">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta
+      name="description"
+      content="A simple game for learning the Japanese kana!"
+    />
+    <meta name="subject" content="Game" />
+    <meta name="author" content="alic3dev" />
+    <!-- TODO: Update this meta property -->
+    <!-- <meta name="url" content="https://www.replaceits.me/kana-totsugeki" /> -->
+    <meta name="rating" content="General" />
+    <meta name="viewport" content="user-scalable=0" />
 
-        <meta property="og:title" content="仮名突撃 - Kana Assault">
-		<meta property="og:description" content="A simple game for learning the Japanese kana!">
-		<meta property="og:locale" content="en_US">
-        <meta property="og:locale:alternate" content="ja_JP">
-		<meta property="og:type" content="website">
-		<meta property="og:url" content="https://www.replaceits.me/kana-totsugeki/">
-		<meta property="og:image" content="https://www.replaceits.me/images/kana-totsugeki-preview.png">
-		<meta property="og:image:type" content="image/png">
-		<meta property="og:image:height" content="320">
-		<meta property="og:image:width" content="639">
+    <meta property="og:title" content="仮名突撃 - Kana Assault" />
+    <meta
+      property="og:description"
+      content="A simple game for learning the Japanese kana!"
+    />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ja_JP" />
+    <!-- TODO: Update these meta property -->
+    <!-- 
+      <meta property="og:type" content="website" />
+      <meta
+        property="og:url"
+        content="https://www.replaceits.me/kana-totsugeki/"
+      />
+      <meta
+        property="og:image"
+        content="https://www.replaceits.me/images/kana-totsugeki-preview.png"
+      />
+      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:height" content="320" />
+      <meta property="og:image:width" content="639" /> 
+    -->
 
-		<meta name="twitter:card" content="summary_large_image">
-		<meta name="twitter:site" content="@replaceits">
-		<meta name="twitter:creator" content="@replaceits">
-		<meta name="twitter:title" content="仮名突撃 - Kana Assault">
-		<meta name="twitter:description" content="A simple game for learning the Japanese kana!">
-		<meta name="twitter:image" content="https://www.replaceits.me/images/kana-totsugeki-preview.png">
-		<meta name="twitter:image:alt" content="Kana Assualt Preview">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@alic3dev" />
+    <meta name="twitter:creator" content="@alic3dev" />
+    <meta name="twitter:title" content="仮名突撃 - Kana Assault" />
+    <meta
+      name="twitter:description"
+      content="A simple game for learning the Japanese kana!"
+    />
+    <!-- TODO: Update these meta property -->
 
-        <title>仮名突撃 - Kana Assault</title>
+    <!-- 
+      <meta
+        name="twitter:image"
+        content="https://www.replaceits.me/images/kana-totsugeki-preview.png"
+      />
+      <meta name="twitter:image:alt" content="Kana Assualt Preview" /> 
+    -->
 
-        <link rel="stylesheet" href="css/kana_totsugeki.css?v=0.1">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Inconsolata">
-        <link rel="stylesheet" href="https://use.fontawesome.com/3510507754.css">
+    <title>仮名突撃 - Kana Assault</title>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script type="text/javascript" src="js/kana_totsugeki.js"></script>
-    </head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lato|Inconsolata"
+    />
+    <link rel="stylesheet" href="https://use.fontawesome.com/3510507754.css" />
 
-    <body>
-        <div class="game-wrapper">
-            
-            <div class="game-main-menu">
-                <div class="game-main-menu-header japanese">
-                    仮名突撃<br>Kana Assault
-                </div>
-                <div class="game-main-menu-buttons">
-                    <div class="game-button start">
-                        Start
-                    </div>
-                    <div class="game-button options">
-                        Options
-                    </div>
-                </div>
-            </div>
-            
-            <div class="game-options-menu">
-                <div class="game-options-menu-column-container">
-                    <div class="game-options-menu-column">
-                        <div class="game-options-menu-column-item">
-                            <div class="game-options-menu-column-item-header questions">
-                                Questions
-                            </div>
-                            <div class="game-options-menu-column-item-choice">
-                                <span class="romaji">Romaji</span>
-                                <div class="game-options-tiny-button questions-romaji disabled"></div>
-                            </div>
-                            <div class="game-options-menu-column-item-choice">
-                                <span class="hiragana">Hiragana</span>
-                                <div class="game-options-tiny-button questions-hiragana enabled"></div>
-                            </div>
-                            <div class="game-options-menu-column-item-choice">
-                                <span class="katakana">Katakana</span>
-                                <div class="game-options-tiny-button questions-katakana enabled"></div>
-                            </div>
-                            <div class="game-options-menu-column-item-choice">
-                                <span class="show-correct">Show correct</span>
-                                <div class="game-options-tiny-button questions-show-correct enabled"></div>
-                            </div>
-                        </div>
-                        <div class="game-options-menu-column-item">
-                            <div class="game-options-menu-column-item-header speed">
-                                Speed
-                            </div>
-                            <div class="game-options-menu-column-item-button-choice">
-                                <div class="game-options-medium-button button-speed disabled slow">
-                                    Slow
-                                </div>
-                                <div class="game-options-medium-button button-speed enabled medium">
-                                    Medium
-                                </div>
-                                <div class="game-options-medium-button button-speed disabled fast">
-                                    Fast
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="game-options-menu-column">
-                        <div class="game-options-menu-column-item">
-                            <div class="game-options-menu-column-item-header answers">
-                                Answers
-                            </div>
-                            <div class="game-options-menu-column-item-choice">
-                                <span class="romaji">Romaji</span>
-                                <div class="game-options-tiny-button answers-romaji enabled"></div>
-                            </div>
-                            <div class="game-options-menu-column-item-choice">
-                                <span class="hiragana">Hiragana</span>
-                                <div class="game-options-tiny-button answers-hiragana enabled"></div>
-                            </div>
-                            <div class="game-options-menu-column-item-choice">
-                                <span class="katakana">Katakana</span>
-                                <div class="game-options-tiny-button answers-katakana enabled"></div>
-                            </div>
-                            <div class="game-options-menu-column-item-choice">
-                                <span class="no-repeat">No repeats</span>
-                                <div class="game-options-tiny-button answers-no-repeat enabled"></div>
-                            </div>
-                        </div> 
-                        <div class="game-options-menu-column-item">
-                            <div class="game-options-menu-column-item-header lives">
-                                Lives
-                            </div>
-                            <div class="game-options-menu-column-item-button-choice">
-                                <div class="game-options-medium-button disabled  button-lives">
-                                    1
-                                </div>
-                                <div class="game-options-medium-button button-lives enabled">
-                                    3
-                                </div>
-                                <div class="game-options-medium-button disabled button-lives">
-                                    5
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="game-button exit">
-                    Exit
-                </div>
-            </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-            <div class="game-play-field-wrapper">
-                <div class="game-countdown-timer"></div>
-                <div class="game-play-field">
-                    <div class="game-question japanese"></div>
-                    <div class="game-input">
-                        <div class="carrot mono">
-                            >
-                        </div>
-                        <input type="text" class="game-input-answer" maxlength="3" autofocus>
-                    </div>
-                    <div class="game-input-underline"></div>
-                    <div class="game-score mono">
-                        0
-                    </div>
-                </div>
-                <div class="game-heart-container">
-                    <div class="game-heart">
-                        <i class="fa fa-heart" aria-hidden="true"></i>
-                    </div>
-                    <div class="game-heart">
-                        <i class="fa fa-heart" aria-hidden="true"></i>
-                    </div>
-                    <div class="game-heart">
-                        <i class="fa fa-heart" aria-hidden="true"></i>
-                    </div>
-                    <div class="game-heart">
-                        <i class="fa fa-heart" aria-hidden="true"></i>
-                    </div>
-                    <div class="game-heart">
-                        <i class="fa fa-heart" aria-hidden="true"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="game-over">
-                <div class="game-over-header">
-                    <span class="score">Score</span>: <span class="final-score mono">0</span>
-                </div>
-                <div class="game-over-header">
-                    <span class="correct">Correct</span>: <span class="final-correct mono">0</span>
-                </div>
-                <div class="game-over-header">
-                    <span class="seconds">Seconds</span>: <span class="final-seconds mono">0</span>
-                </div>
-                <div class="game-over-buttons">
-                    <div class="game-button restart">
-                        Restart
-                    </div>
-                    <div class="game-button menu">
-                        Menu
-                    </div>
-                </div>
-            </div>
-            
-            <div class="game-footer">
-                <div class="game-footer-item">
-                    <a href="https://github.com/replaceits/Kana-Totsugeki">
-                        <i class="fa fa-code-fork" aria-hidden="true"></i>
-                    </a>
-                </div>
-                <div class="game-footer-item">
-                    <a class="language-switcher japanese">
-                        日本語
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </body>
+    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
