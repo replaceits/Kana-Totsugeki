@@ -53,7 +53,7 @@ $(HTML_FILE_TARGET): $(HTML_FILE)
 
 $(CSS_TARGET): $(SCSS_FILES)
 	@echo -e "Compiling SCSS...\t\t\t\c"
-	@scss -C --sourcemap=none $(SCSS_MAIN) $(CSS_TARGET) -t compressed 
+	@pnpm exec sass -c --no-source-map $(SCSS_MAIN) $(CSS_TARGET) -s compressed 
 	@echo -e "[ Done ]"
 
 $(JS_TARGET): $(JS_FILES)
@@ -64,7 +64,7 @@ $(JS_TARGET): $(JS_FILES)
 		cat $$JS >> $(JS_TMP_TARGET); \
 	done
 	@echo -e "[ Done ]\nCompressing JS...\t\t\t\c"
-	@yuicompressor --type js --charset utf-8 --nomunge -o $(JS_TARGET) $(JS_TMP_TARGET) > /dev/null 2>&1
+	@pnpm exec yuicompressor --type js --charset utf-8 --nomunge -o $(JS_TARGET) $(JS_TMP_TARGET) > /dev/null 2>&1
 	@rm -rf $(BUILD_TMP_PATH)
 	@echo "[ Done ]"
 
