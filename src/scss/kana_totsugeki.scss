@@ -1,23 +1,23 @@
-@import "variables/fonts";
-@import "variables/colors";
-@import "variables/general";
+@import 'variables/fonts';
+@import 'variables/colors';
+@import 'variables/general';
 
-@import "images/backgrounds";
+@import 'images/backgrounds';
 
-@import "layout/base";
+@import 'layout/base';
 
-@import "keyframes/shake";
+@import 'keyframes/shake';
 
-@import "components/anchor";
-@import "components/misc";
-@import "components/buttons";
+@import 'components/anchor';
+@import 'components/misc';
+@import 'components/buttons';
 
-@import "layout/footer";
-@import "layout/main-menu";
-@import "layout/options-menu";
-@import "layout/play-field";
-@import "layout/game-over";
+// @import "layout/footer";
+@import 'layout/main-menu';
+@import 'layout/options-menu';
+@import 'layout/play-field';
+@import 'layout/game-over';
 
-@import "overrides/misc";
+@import 'overrides/misc';
 
-@import "support/mobile";
+@import 'support/mobile';

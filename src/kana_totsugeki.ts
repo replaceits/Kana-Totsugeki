@@ -24,10 +24,6 @@
  * SOFTWARE.
  *
  */
-
-// Array containing all the questions/answers
-// Minified, otherwise it would take up a good 200+ lines of just static data
-// To make changes, beautify first, make changes, then minify again
 const questions = {
   a: { katakana: 'ア', hiragana: 'あ' },
   i: { katakana: 'イ', hiragana: 'い' },
