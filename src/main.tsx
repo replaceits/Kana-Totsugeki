@@ -158,7 +158,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
       <div className="game-footer">
         <div className="game-footer-item">
-          <a href="https://github.com/replaceits/Kana-Totsugeki">
+          <a href="https://github.com/alic3dev/Kana-Totsugeki">
             <i className="fa fa-code-fork" aria-hidden="true"></i>
           </a>
         </div>
