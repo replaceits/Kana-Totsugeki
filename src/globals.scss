@@ -1,0 +1,131 @@
+@use 'scss/variables/colors';
+@use 'scss/variables/fonts';
+
+html,
+body {
+  min-width: 100%;
+  width: 100%;
+  max-width: 100%;
+
+  min-height: 100%;
+  height: 100%;
+  max-height: 100%;
+
+  margin: 0;
+
+  font-size: 100%;
+
+  overflow: hidden;
+
+  background: colors.$color-background url('../images/bgnoise.png') repeat;
+  font-family: fonts.$fonts-english-primary;
+
+  color: colors.$color-white;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+*:focus {
+  outline: none;
+}
+
+a {
+  &,
+  &:visited,
+  &:active,
+  &:link {
+    text-decoration: none;
+    color: colors.$color-primary;
+    transition: color 1s ease;
+    font-size: 1.25em;
+  }
+
+  &:hover {
+    text-decoration: none;
+    color: colors.$color-secondary;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  text-shadow: 0px 12px #000;
+}
+
+h5 {
+  text-shadow: 0px 6px #000;
+}
+
+.japanese {
+  font-family: fonts.$fonts-japanese;
+}
+
+.english {
+  font-family: fonts.$fonts-english-primary;
+}
+
+.mono {
+  font-family: fonts.$fonts-mono;
+}
+
+// FIXME: Break this out into a component or something
+.game-button {
+  font-size: 1.25em;
+  display: block;
+
+  cursor: pointer;
+
+  min-width: 100px;
+  width: 100px;
+  max-width: 100px;
+
+  min-height: 50px;
+  height: 50px;
+  max-height: 50px;
+
+  line-height: 50px;
+
+  border-radius: 10px;
+
+  background: colors.$color-primary;
+
+  box-shadow: 0px 1px 1px 0px rgba(34, 138, 101, 0.75);
+
+  text-align: center;
+  margin-left: 25px;
+  margin-right: 25px;
+
+  transition: box-shadow 0.5s ease, background 0.5s ease;
+
+  &:hover {
+    box-shadow: none;
+    background: colors.$color-secondary;
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  html {
+    font-size: 140%;
+  }
+
+  .game-button {
+    font-size: 1.5em;
+
+    min-width: 175px;
+    width: 175px;
+    max-width: 175px;
+
+    min-height: 75px;
+    height: 75px;
+    max-height: 75px;
+
+    line-height: 75px;
+  }
+}
