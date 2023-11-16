@@ -1,0 +1,15 @@
+@use '../scss/variables/colors';
+
+.game-score {
+  font-size: 4em;
+  color: colors.$color-white;
+  transition: color 0.5s linear;
+
+  &.up {
+    color: colors.$color-primary;
+  }
+
+  &.down {
+    color: colors.$color-complimentary-primary;
+  }
+}

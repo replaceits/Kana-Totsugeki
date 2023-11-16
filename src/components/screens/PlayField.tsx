@@ -6,6 +6,7 @@ import { SettingsContext, SettingsContextObject } from '../../contexts/settings'
 import { questions } from '../../data/questions'
 
 import './PlayField.scss'
+import ScoreCounter from '../ScoreCounter'
 
 export default function PlayField({
   setCurrentScreen,
@@ -13,8 +14,8 @@ export default function PlayField({
   setCurrentScreen: React.Dispatch<React.SetStateAction<ScreenName>>
 }) {
   const settings = React.useContext<SettingsContextObject>(SettingsContext)
-  const validQuestions = React.useMemo<string[]>(() => {
-    const res = []
+  const [gameScore, setGameScore] = React.useState<number>(0)
+
 
     if (settings.settings.romajiQuestions) res.push(...Object.keys(questions))
     if (settings.settings.hiraganaQuestions)
@@ -118,7 +119,7 @@ export default function PlayField({
           />
         </div>
         <div className="game-input-underline"></div>
-        <div className="game-score mono">0</div>
+        <ScoreCounter score={gameScore} />
       </div>
       <div className="game-heart-container">
         <div className={`game-heart ${health < 1 ? 'down' : ''}`}>
