@@ -66,6 +66,12 @@ export default function PlayField({
     let firstTime: number
     let countdownAnimationFrameHandler: number
 
+    const countdownAnimationLength: number = {
+      slow: 7500,
+      medium: 5000,
+      fast: 2500,
+    }[settings.settings.speed]
+
     const countdownAnimationFrameRequest = (time: number): void => {
       if (countdownRef.current === null) {
         countdownAnimationFrameHandler = requestAnimationFrame(
@@ -78,9 +84,11 @@ export default function PlayField({
       if (!firstTime) firstTime = time
       const elapsedTime: number = time - firstTime
 
-      // TODO: Determine animation length based upon settings + fail state on end
       const completedPercentage =
-        Math.max((10000 - elapsedTime) / 10000, 0) * 100
+        Math.max(
+          (countdownAnimationLength - elapsedTime) / countdownAnimationLength,
+          0
+        ) * 100
 
       countdownRef.current.style.width = `${completedPercentage}%`
 
