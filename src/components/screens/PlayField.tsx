@@ -3,7 +3,7 @@ import React from 'react'
 import { ScreenName } from '.'
 
 import { SettingsContext, SettingsContextObject } from '../../contexts/settings'
-import { questions } from '../../data/questions'
+import { formatedQuestions, FormatedQuestion } from '../../data/questions'
 
 import './PlayField.scss'
 import ScoreCounter from '../ScoreCounter'
@@ -18,12 +18,22 @@ export default function PlayField({
   const settings = React.useContext<SettingsContextObject>(SettingsContext)
   const [gameScore, setGameScore] = React.useState<number>(0)
 
+  const validQuestions = React.useMemo<
+    FormatedQuestion[]
+  >((): FormatedQuestion[] => {
+    const res: FormatedQuestion[] = []
 
-    if (settings.settings.romajiQuestions) res.push(...Object.keys(questions))
-    if (settings.settings.hiraganaQuestions)
-      res.push(...Object.values(questions).map((q) => q.hiragana))
-    if (settings.settings.katakanaQuestions)
-      res.push(...Object.values(questions).map((q) => q.katakana))
+    if (settings.settings.romajiQuestions) {
+      res.push(...formatedQuestions.romaji)
+    }
+
+    if (settings.settings.hiraganaQuestions) {
+      res.push(...formatedQuestions.hiragana)
+    }
+
+    if (settings.settings.katakanaQuestions) {
+      res.push(...formatedQuestions.katakana)
+    }
 
     return res
   }, [
@@ -32,21 +42,21 @@ export default function PlayField({
     settings.settings.katakanaQuestions,
   ])
 
-  const [currentQuestion, setCurrentQuestion] = React.useState<string>(
-    (): string =>
-      validQuestions[Math.floor(Math.random() * validQuestions.length)]
+  const generateNewQuestion = React.useCallback(
+    (): FormatedQuestion =>
+      validQuestions[Math.floor(Math.random() * validQuestions.length)],
+    [validQuestions]
   )
-  const [health, setHealth] = React.useState(settings.settings.lives)
+
+  const [currentQuestion, setCurrentQuestion] =
+    React.useState<FormatedQuestion>(
+      (): FormatedQuestion => generateNewQuestion()
+    )
+
+  const [health, setHealth] = React.useState<number>(settings.settings.lives)
 
   const inputRef = React.useRef<HTMLInputElement>(null)
   const countdownRef = React.useRef<HTMLDivElement>(null)
-
-  const resetGame = React.useCallback(() => {
-    inputRef.current?.focus()
-
-    setCurrentQuestion('')
-    setHealth(settings.settings.lives)
-  }, [settings, inputRef])
 
   React.useEffect(() => {
     inputRef.current?.focus()
@@ -98,18 +108,40 @@ export default function PlayField({
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key !== 'Enter' && event.code !== 'Enter') return
 
-      // TODO: Check answer
+      const userAnswer = event.currentTarget.value
 
-      alert(event.currentTarget.value)
+      if (
+        (settings.settings.romajiAnswers &&
+          currentQuestion.romaji === userAnswer) ||
+        (settings.settings.hiraganaAnswers &&
+          currentQuestion.hiragana === userAnswer) ||
+        (settings.settings.katakanaAnswers &&
+          currentQuestion.katakana === userAnswer)
+      ) {
+        setCurrentQuestion(generateNewQuestion())
+        setGameScore((prevScore) => (prevScore += 100))
+        if (inputRef.current) inputRef.current.value = ''
+      } else {
+        setHealth((prevHealth) => prevHealth - 1)
+        setGameScore((prevScore) => Math.max(prevScore - 100, 0))
+      }
     },
-    []
+    [
+      settings.settings.romajiAnswers,
+      settings.settings.hiraganaAnswers,
+      settings.settings.katakanaAnswers,
+      currentQuestion,
+      generateNewQuestion,
+    ]
   )
 
   return (
     <div className="game-play-field-wrapper">
       <div className="game-countdown-timer" ref={countdownRef}></div>
       <div className="game-play-field">
-        <div className="game-question japanese">{currentQuestion}</div>
+        <div className="game-question japanese">
+          {currentQuestion[currentQuestion.selected]}
+        </div>
         <div className="game-input">
           <div className="carrot mono">&gt;</div>
           <input

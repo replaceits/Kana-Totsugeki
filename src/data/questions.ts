@@ -56,6 +56,45 @@ export const questions: Questions = {
   n: { hiragana: 'ん', katakana: 'ン' },
 }
 
+type QuestionTypes = 'romaji' | 'hiragana' | 'katakana'
+
+export interface FormatedQuestion {
+  selected: QuestionTypes
+  hiragana: string
+  katakana: string
+  romaji: string
+}
+
+type FormatedQuestions = {
+  [key in QuestionTypes]: FormatedQuestion[]
+}
+
+export const formatedQuestions: FormatedQuestions = {
+  romaji: Object.keys(questions).map<FormatedQuestion>(
+    (q: string): FormatedQuestion => ({
+      selected: 'romaji' as QuestionTypes,
+      romaji: q,
+      ...questions[q],
+    })
+  ),
+
+  hiragana: Object.keys(questions).map<FormatedQuestion>(
+    (q: string): FormatedQuestion => ({
+      selected: 'hiragana' as QuestionTypes,
+      romaji: q,
+      ...questions[q],
+    })
+  ),
+
+  katakana: Object.keys(questions).map<FormatedQuestion>(
+    (q: string): FormatedQuestion => ({
+      selected: 'katakana' as QuestionTypes,
+      romaji: q,
+      ...questions[q],
+    })
+  ),
+}
+
 // export const bquestions: Questions = {
 //   kya: {},
 //   kyo: {},
