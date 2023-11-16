@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 
 import { ScreenName } from '.'
 
@@ -10,8 +10,10 @@ import ScoreCounter from '../ScoreCounter'
 
 export default function PlayField({
   setCurrentScreen,
+  active,
 }: {
   setCurrentScreen: React.Dispatch<React.SetStateAction<ScreenName>>
+  active: boolean
 }) {
   const settings = React.useContext<SettingsContextObject>(SettingsContext)
   const [gameScore, setGameScore] = React.useState<number>(0)
@@ -49,6 +51,8 @@ export default function PlayField({
   React.useEffect(() => {
     inputRef.current?.focus()
 
+    if (!active) return
+
     let firstTime: number
     let countdownAnimationFrameHandler: number
 
@@ -82,7 +86,7 @@ export default function PlayField({
     )
 
     return () => cancelAnimationFrame(countdownAnimationFrameHandler)
-  }, [])
+  }, [active, settings.settings.speed])
 
   React.useEffect(() => {
     if (health === 0) {

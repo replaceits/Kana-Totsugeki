@@ -12,8 +12,12 @@ import './GameWrapper.scss'
 
 const Fader = ({
   active,
+  onAnimationEnd = () => {},
   children,
-}: React.PropsWithChildren<{ active: boolean }>): JSX.Element => {
+}: React.PropsWithChildren<{
+  active: boolean
+  onAnimationEnd?: (active: boolean) => void
+}>): JSX.Element => {
   const faderRef = React.useRef<HTMLDivElement>(null)
   const isFirstRender = useIsFirstRender()
 
@@ -48,6 +52,7 @@ const Fader = ({
         faderRef.current.style.opacity = `${opacity}`
 
         if (opacity !== 1) animationFrameHandle = requestAnimationFrame(fadeIn)
+        else onAnimationEnd(active)
       }
 
       timeoutHandle = setTimeout(
@@ -72,6 +77,7 @@ const Fader = ({
         faderRef.current.style.opacity = `${opacity}`
 
         if (opacity !== 0) animationFrameHandle = requestAnimationFrame(fadeOut)
+        else onAnimationEnd(active)
       }
 
       animationFrameHandle = requestAnimationFrame(fadeOut)
@@ -82,7 +88,7 @@ const Fader = ({
       if (animationFrameHandle !== null)
         cancelAnimationFrame(animationFrameHandle)
     }
-  }, [active, isFirstRender])
+  }, [active, isFirstRender, onAnimationEnd])
 
   return <div ref={faderRef}>{children}</div>
 }
@@ -92,14 +98,7 @@ export function GameWrapper() {
   const [currentScreen, setCurrentScreen] =
     React.useState<ScreenName>('MainMenu')
 
-  React.useEffect(() => {
-    if (currentScreen === 'PlayField') {
-      const timeoutHandler: number = setTimeout(() => {},
-      Constants.ANIMATION_LENGTH)
-
-      return () => clearTimeout(timeoutHandler)
-    }
-  }, [currentScreen])
+  const [playFieldActive, setPlayFieldActive] = React.useState<boolean>(false)
 
   return (
     <main className="game-wrapper">
@@ -111,8 +110,14 @@ export function GameWrapper() {
           <Fader active={currentScreen === 'Options'}>
             <Options setCurrentScreen={setCurrentScreen} />
           </Fader>
-          <Fader active={currentScreen === 'PlayField'}>
-            <PlayField setCurrentScreen={setCurrentScreen} />
+          <Fader
+            active={currentScreen === 'PlayField'}
+            onAnimationEnd={(active: boolean) => setPlayFieldActive(active)}
+          >
+            <PlayField
+              setCurrentScreen={setCurrentScreen}
+              active={playFieldActive}
+            />
           </Fader>
           <Fader active={currentScreen === 'GameOver'}>
             <GameOver setCurrentScreen={setCurrentScreen} />
