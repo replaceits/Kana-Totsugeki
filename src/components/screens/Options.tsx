@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ScreenName } from '.'
+import { CurrentScreen } from '.'
 import { Setting, Settings } from '@/src/data/settings'
 import { SettingsContextObject, SettingsContext } from '../../contexts/settings'
 import { Locale, LocalizationContext } from '../../contexts/localization'
@@ -10,7 +10,7 @@ import './Options.scss'
 export default function Options({
   setCurrentScreen,
 }: {
-  setCurrentScreen: React.Dispatch<React.SetStateAction<ScreenName>>
+  setCurrentScreen: React.Dispatch<React.SetStateAction<CurrentScreen>>
 }) {
   const settings = React.useContext<SettingsContextObject>(SettingsContext)
   const localization = React.useContext<Locale>(LocalizationContext)
@@ -39,7 +39,7 @@ export default function Options({
   )
 
   const onExitClick = React.useCallback(
-    () => setCurrentScreen('MainMenu'),
+    () => setCurrentScreen({ name: 'MainMenu' }),
     [setCurrentScreen]
   )
 

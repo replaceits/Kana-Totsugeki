@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ScreenName } from '.'
+import { CurrentScreen } from '.'
 import { LocalizationContext } from '../../contexts/localization'
 
 import './Main.scss'
@@ -8,16 +8,16 @@ import './Main.scss'
 export default function MainMenu({
   setCurrentScreen,
 }: {
-  setCurrentScreen: React.Dispatch<React.SetStateAction<ScreenName>>
+  setCurrentScreen: React.Dispatch<React.SetStateAction<CurrentScreen>>
 }) {
   const localization = React.useContext(LocalizationContext)
 
   const onStartClick = React.useCallback(() => {
-    setCurrentScreen('PlayField')
+    setCurrentScreen({ name: 'PlayField' })
   }, [setCurrentScreen])
 
   const onOptionsClick = React.useCallback(() => {
-    setCurrentScreen('Options')
+    setCurrentScreen({ name: 'Options' })
   }, [setCurrentScreen])
 
   return (
