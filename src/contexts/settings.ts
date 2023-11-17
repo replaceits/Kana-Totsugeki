@@ -12,12 +12,12 @@ type SettingsDispatch = React.Dispatch<SettingsDispatchAction>
 
 export interface SettingsContextObject {
   settings: Settings
-  settingsDispatch: SettingsDispatch
+  dispatch: SettingsDispatch
 }
 
 export const SettingsContext = React.createContext<SettingsContextObject>({
   settings: defaultSettings,
-  settingsDispatch: () => {},
+  dispatch: () => {},
 })
 
 const settingsReducer = (
@@ -43,7 +43,7 @@ const settingsReducer = (
 }
 
 export const useSettingsReducer = (): [Settings, SettingsDispatch] => {
-  const [settings, settingsDispatch] = React.useReducer(
+  const [settings, dispatch] = React.useReducer(
     settingsReducer,
     defaultSettings,
     (defaultSettings) => {
@@ -69,7 +69,7 @@ export const useSettingsReducer = (): [Settings, SettingsDispatch] => {
     )
   }, [settings])
 
-  return [settings, settingsDispatch]
+  return [settings, dispatch]
 }
 
 export default SettingsContext

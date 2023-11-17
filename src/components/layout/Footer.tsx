@@ -11,7 +11,7 @@ export default function Footer() {
   const localization = React.useContext<Locale>(LocalizationContext)
 
   const onLanguageSwitcherClick = React.useCallback(() => {
-    settingsContext.settingsDispatch({
+    settingsContext.dispatch({
       type: 'toggle',
       name: 'language',
     })

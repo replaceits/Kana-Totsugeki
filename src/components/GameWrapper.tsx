@@ -95,14 +95,14 @@ const Fader = ({
 
 export function GameWrapper() {
   const [settings, settingsDispatch] = useSettingsReducer()
-  const [currentScreen, setCurrentScreen] =
-    React.useState<ScreenName>('MainMenu')
 
   const [playFieldActive, setPlayFieldActive] = React.useState<boolean>(false)
 
   return (
     <main className="game-wrapper">
-      <SettingsContext.Provider value={{ settings, settingsDispatch }}>
+      <SettingsContext.Provider
+        value={{ settings, dispatch: settingsDispatch }}
+      >
         <LocalizationContext.Provider value={locales[settings.language]}>
           <Fader active={currentScreen === 'MainMenu'}>
             <MainMenu setCurrentScreen={setCurrentScreen} />

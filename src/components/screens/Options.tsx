@@ -18,7 +18,7 @@ export default function Options({
   const getOnOptionUpdate = React.useCallback(
     (name: keyof Settings, value: Setting): (() => void) =>
       (): void => {
-        settings.settingsDispatch({ type: 'update', name, value })
+        settings.dispatch({ type: 'update', name, value })
       },
     [settings]
   )
@@ -26,7 +26,7 @@ export default function Options({
   const getOnOptionToggle = React.useCallback(
     (name: keyof Settings): (() => void) =>
       (): void => {
-        settings.settingsDispatch({ type: 'toggle', name })
+        settings.dispatch({ type: 'toggle', name })
       },
     [settings]
   )
