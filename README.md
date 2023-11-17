@@ -14,18 +14,15 @@ Each kana you get right will give you 100 points and each you get wrong will tak
 
 At the end of the game (when you run out of lives) you will be shown your final score and the number of kana that you got correct!
 
-<!-- TODO: Update this URL -->
-
-[Enjoy it live on my website](https://www.replaceits.me/kana-totsugeki/)!
+<!-- TODO: Host this -->
+<!-- Enjoy it live on at [alic3.dev/kana-totsugeki](https://alic3.dev/kana-totsugeki/)! -->
 
 ## Development
 
-Written using jQuery 3.1.1 and SCSS.
+Written using Vite + React in TypeScript with SCSS.
 
 ## Contact
 
 If you find any bugs, typos, improper translations or anything else feel free to contact me on [GitHub](https://github.com/alic3dev), or simply submit a pull request!
 
-<!-- TODO: Update this URL -->
-
-To see more of my work check out my [website](https://www.replaceits.me)!
+To see more of my work check out [alic3.dev](https://alic3.dev)!
