@@ -7,7 +7,7 @@ import { Locale, LocalizationContext } from '../../contexts/localization'
 
 import './Options.scss'
 
-export default function Options({
+export function Options({
   setCurrentScreen,
 }: {
   setCurrentScreen: React.Dispatch<React.SetStateAction<CurrentScreen>>

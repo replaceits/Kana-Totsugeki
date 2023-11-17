@@ -5,7 +5,7 @@ import { LocalizationContext } from '../../contexts/localization'
 
 import './Main.scss'
 
-export default function MainMenu({
+export function MainMenu({
   setCurrentScreen,
 }: {
   setCurrentScreen: React.Dispatch<React.SetStateAction<CurrentScreen>>

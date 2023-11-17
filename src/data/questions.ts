@@ -103,5 +103,3 @@ export const formatedQuestions: Readonly<FormatedQuestions> = Object.freeze({
     )
   ),
 })
-
-export default questions

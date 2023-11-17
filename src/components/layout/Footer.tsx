@@ -5,7 +5,7 @@ import { Locale, LocalizationContext } from '../../contexts/localization'
 
 import './Footer.scss'
 
-export default function Footer() {
+export function Footer() {
   const settingsContext =
     React.useContext<SettingsContextObject>(SettingsContext)
   const localization = React.useContext<Locale>(LocalizationContext)

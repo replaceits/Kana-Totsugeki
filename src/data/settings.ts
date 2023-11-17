@@ -30,5 +30,3 @@ export const defaultSettings: Settings = {
   language: 'english',
   speed: 'medium',
 }
-
-export default defaultSettings

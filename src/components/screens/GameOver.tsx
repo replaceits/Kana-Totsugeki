@@ -5,7 +5,7 @@ import { Locale, LocalizationContext } from '../../contexts/localization'
 
 import './GameOver.scss'
 
-export default function GameOver({
+export function GameOver({
   setCurrentScreen,
   previousScreenProps,
 }: {

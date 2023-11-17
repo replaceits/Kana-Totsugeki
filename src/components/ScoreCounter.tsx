@@ -2,7 +2,7 @@ import React from 'react'
 
 import './ScoreCounter.scss'
 
-export default function ScoreCounter({ score }: { score: number }) {
+export function ScoreCounter({ score }: { score: number }) {
   const displayRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ScoreCounter from '../ScoreCounter'
+import { ScoreCounter } from '../ScoreCounter'
 
 import { CurrentScreen } from '.'
 
@@ -9,7 +9,7 @@ import { formatedQuestions, FormatedQuestion } from '../../data/questions'
 
 import './PlayField.scss'
 
-export default function PlayField({
+export function PlayField({
   setCurrentScreen,
   active,
 }: {

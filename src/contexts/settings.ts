@@ -71,5 +71,3 @@ export const useSettingsReducer = (): [Settings, SettingsDispatch] => {
 
   return [settings, dispatch]
 }
-
-export default SettingsContext
